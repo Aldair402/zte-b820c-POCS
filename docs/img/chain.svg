@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" font-family="monospace" font-size="13">
+  <rect width="900" height="430" fill="#ffffff"/>
+  <text x="20" y="28" font-size="16" font-weight="bold">ZTE B820C-A15 (S905X2, Android 12) — escalation chain</text>
+
+  <rect x="20" y="50" width="230" height="60" fill="#f4f4f4" stroke="#333"/>
+  <text x="35" y="72">unprivileged app</text>
+  <text x="35" y="92">uid 10xxx (Termux)</text>
+
+  <rect x="20" y="140" width="230" height="80" fill="#eef6ff" stroke="#333"/>
+  <text x="35" y="162">1. broadcast</text>
+  <text x="35" y="182">com.zte.stb.StartHWTest</text>
+  <text x="35" y="202">→ FactoryTest + :10044</text>
+
+  <rect x="300" y="140" width="240" height="80" fill="#eef6ff" stroke="#333"/>
+  <text x="315" y="162">2. frame 7e 01 2c ff…</text>
+  <text x="315" y="182">tcp 127.0.0.1:10044</text>
+  <text x="315" y="202">→ HTTPServer :10001</text>
+
+  <rect x="590" y="140" width="280" height="80" fill="#e9f9ee" stroke="#333"/>
+  <text x="605" y="162">3. POST /RunCmd</text>
+  <text x="605" y="182">uid 1000 (system_app)</text>
+  <text x="605" y="202">arbitrary sh -c</text>
+
+  <rect x="300" y="260" width="240" height="80" fill="#fff6e5" stroke="#333"/>
+  <text x="315" y="282">service call adb 1</text>
+  <text x="315" y="302">i32 1 s16 &lt;adbkey.pub&gt;</text>
+  <text x="315" y="322">→ shell uid 2000</text>
+
+  <rect x="590" y="260" width="280" height="80" fill="#fdecef" stroke="#333"/>
+  <text x="605" y="282">setBootEnv(ubootenv.var.*)</text>
+  <text x="605" y="302">root HAL → U-Boot env</text>
+  <text x="605" y="322">→ USB boot / UART / init=</text>
+
+  <line x1="135" y1="110" x2="135" y2="140" stroke="#333" marker-end="url(#a)"/>
+  <line x1="250" y1="180" x2="300" y2="180" stroke="#333" marker-end="url(#a)"/>
+  <line x1="540" y1="180" x2="590" y2="180" stroke="#333" marker-end="url(#a)"/>
+  <line x1="730" y1="220" x2="730" y2="260" stroke="#333" marker-end="url(#a)"/>
+  <line x1="420" y1="220" x2="420" y2="260" stroke="#333" marker-end="url(#a)"/>
+  <line x1="300" y1="300" x2="250" y2="300" stroke="none"/>
+  <path d="M135 200 L135 300 L300 300" fill="none" stroke="#888" stroke-dasharray="4 3"/>
+  <text x="150" y="318" fill="#666">(uid 1000 is also reachable directly from an app via the RunCmd channel)</text>
+
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,62 @@
+#-----------------------------------------------------------------
+# CONFIGURACION PREVIA DE ARMBIAN PARA TU CAJA
+# Cortesia de la config que YA conocemos de tu red:
+#   WiFi : MiWiFi      (leido del registro del sistema de la caja)
+#   Red  : 192.168.100.x  ->  router 192.168.100.1
+#
+# COMO USAR ESTE ARCHIVO (sin teclado, todo desde el PC):
+#   1) Copia este archivo a la particion FAT32 del pendrive (la que se
+#      llama BOOT / armbi_boot y tiene uEnv.txt).
+#   2) Renombralo a:      armbian_first_run.txt
+#      (borra el que venga como armbian_first_run.txt.template)
+#   3) Edita la linea FR_net_wifi_key y pon TU CONTRASEÑA del WiFi,
+#      entre las comillas simples. Nada mas.
+#   4) Expulsa el pendrive, metelo en la caja y enciende.
+#
+# Con esto Armbian se conectara SOLO al WiFi y ademas tendra una IP FIJA:
+#        192.168.100.66
+#   Asi ya sabes exactamente donde entrar desde tu PC o telefono:
+#
+#      ssh root@192.168.100.66          <- usuario root
+#      contraseña inicial: 1234         <- te pedira cambiarla
+#
+#   (En Windows 10/11 el comando ssh ya viene incluido: abre "PowerShell"
+#    o "Simbolo del sistema" y escribe esa linea.)
+#-----------------------------------------------------------------
+
+FR_general_delete_this_file_after_completion=1
+
+FR_net_change_defaults=1
+
+# --- WiFi primero (ethernet desactivado mientras no haya cable) ---
+FR_net_ethernet_enabled=0
+FR_net_wifi_enabled=1
+
+FR_net_wifi_ssid='MiWiFi'
+FR_net_wifi_key='PON_AQUI_TU_CONTRASENA'      # <===== EDITA SOLO ESTO
+FR_net_wifi_countrycode='MX'
+
+# --- IP fija para no tener que buscarla ---
+FR_net_use_static=1
+FR_net_static_ip='192.168.100.66'
+FR_net_static_mask='255.255.255.0'
+FR_net_static_gateway='192.168.100.1'
+FR_net_static_dns='192.168.100.1 1.1.1.1'
+
+#-----------------------------------------------------------------
+# SI ALGO NO CUADRA:
+#
+#  A) Si prefieres Ethernet (mas simple): pon
+#        FR_net_ethernet_enabled=1
+#        FR_net_wifi_enabled=0
+#        FR_net_use_static=0
+#     y conecta un cable de red de la caja al router.
+#
+#  B) Si la IP fija te da problemas (choque con el router): pon
+#        FR_net_use_static=0
+#     y mira la IP en la TV (la consola de Armbian la muestra al
+#     arrancar) o en la lista de dispositivos del router.
+#
+#  C) Si no tienes forma de saber la IP: mira la TV. La pantalla de
+#     Armbian muestra las direcciones IP en el mensaje de bienvenida.
+#-----------------------------------------------------------------

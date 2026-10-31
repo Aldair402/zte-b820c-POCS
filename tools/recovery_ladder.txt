@@ -1,0 +1,96 @@
+RECOVERY CONSOLE LADDER — ZTE B820C-A15 (Amlogic G12A)
+======================================================
+
+Confirmed on a retail unit:
+  * `setenforce 0` is DENIED in the recovery shell.
+  * /udisk (vfat) is mounted noexec: binaries cannot be executed from the stick,
+    but files CAN be written there.
+  * Consequence: everything below works WITH the SELinux policy, not around it,
+    and /udisk is used only as a writing target.
+
+How to use: paste one block at a time into the serial console (picocom).
+Each block is self-contained; the comment lines after a block say what to do
+with the result. Lines are kept short on purpose.
+
+
+--- 0. who am I ------------------------------------------------------------
+id; cat /proc/self/attr/current; getenforce; uname -m; uname -r
+
+   Record the domain (u:r:...:s0) and the architecture: the userspace is 32-bit
+   (armv8l) even though the kernel is arm64.
+
+
+--- 1. destination ---------------------------------------------------------
+mkdir -p /udisk/bk && touch /udisk/bk/wtest && echo WRITABLE && ls -d /udisk
+
+   If /udisk is not the mount point, find it:  mount | grep -i vfat
+
+
+--- 2. what the kernel gives for free (readable even confined) -------------
+cat /proc/cmdline      > /udisk/bk/cmdline.txt
+cat /proc/partitions   > /udisk/bk/partitions.txt
+cat /proc/self/mountinfo > /udisk/bk/mountinfo.txt
+ls -lZ /dev/block/by-name > /udisk/bk/byname.txt
+cat /proc/version      > /udisk/bk/version.txt
+
+   This alone recovers the boot command line and the exact partition layout.
+
+
+--- 3. live device tree (the piece needed for WiFi / IR / LED work) --------
+tar -C /sys/firmware/devicetree/base -cf /udisk/bk/dt.tar . && echo DT_OK
+tar -C /proc/device-tree             -cf /udisk/bk/dt-proc.tar . && echo DT_PROC_OK
+cat /sys/firmware/fdt > /udisk/bk/live.dtb 2>/dev/null; ls -l /udisk/bk/live.dtb
+
+   On the PC, turn the tree back into source:
+     tar -xf dt.tar -C dt/          # or: mkdir dt && tar -xf dt.tar -C dt
+     dtc -I fs -O dts dt -o factory.dts
+   and, if live.dtb exists:
+     dtc -I dtb -O dts live.dtb > live.dts
+
+
+--- 4. can raw partitions be read? (test on the smallest one) --------------
+dd if=/dev/block/by-name/misc of=/udisk/bk/t.bin bs=4096 count=1; ls -l /udisk/bk/t.bin
+
+   If t.bin is empty or "Permission denied", try the next two in order:
+toybox dd if=/dev/block/by-name/misc of=/udisk/bk/t.bin bs=4096 count=1; ls -l /udisk/bk/t.bin
+cat /dev/block/by-name/misc > /udisk/bk/t.bin; ls -l /udisk/bk/t.bin
+
+   If all three fail, block I/O is not permitted in this domain: stop here, keep
+   everything from steps 2 and 3, and report back — the backup has to move to the
+   PC-over-adb route (tools/recovery_backup_pc.sh).
+
+
+--- 5. the backup (only if step 4 worked) ----------------------------------
+for p in env misc conf dtbo vbmeta factory logo boot recovery tee param oem metadata cri_data; do dd if=/dev/block/by-name/$p of=/udisk/bk/$p.img bs=1048576 2>/dev/null; done
+sync; ls -l /udisk/bk
+
+   ~200 MB total. If a single partition fails, note which one and continue; the
+   loop does not stop on errors.
+
+   Two optional extras:
+dd if=/dev/block/mmcblk0 of=/udisk/bk/env_raw_45c00000.img bs=512 skip=2285568 count=2048 2>/dev/null; ls -l /udisk/bk/env_raw_45c00000.img
+for p in super cache; do dd if=/dev/block/by-name/$p of=/udisk/bk/$p.img bs=1048576 2>/dev/null; done
+
+
+--- 6. integrity check and kernel log --------------------------------------
+md5sum /udisk/bk/*.img > /udisk/bk/md5sums.txt; cat /udisk/bk/md5sums.txt
+dmesg > /udisk/bk/dmesg.txt 2>/dev/null; ls -l /udisk/bk/dmesg.txt
+
+
+--- 7. optional: a helper to run from /tmp (only if you need one) ----------
+mkdir -p /tmp/x; cp /udisk/busybox-armhf /tmp/x/bb; chmod 755 /tmp/x/bb; /tmp/x/bb id
+
+   /tmp is tmpfs and is not noexec, so a static busybox copied there covers
+   missing applets (md5sum, sha256sum, xxd...). The binary must be 32-bit ARM
+   (armhf/armv7), matching this device's userspace.
+
+
+NOTES
+-----
+* The environment variable area starts at raw offset 0x45c00000 (from the
+  bootloader log) = sector 2285568, size 2048 sectors (1 MB).
+* `env.img` (GPT partition) and `env_raw_45c00000.img` should match; if they do
+  not, the GPT copy is stale and the raw area is the one U-Boot actually uses.
+* Nothing in this file writes to the eMMC: every operation is read-only.
+* Everything ends up in /udisk/bk — power the box off only after `sync` returns
+  and the stick's activity LED stops.

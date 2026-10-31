@@ -1,0 +1,411 @@
+(venv) [root@talyslap taly]# picocom -b 115200 /dev/ttyUSB0 
+picocom v3.1
+
+port is        : /dev/ttyUSB0
+flowcontrol    : none
+baudrate is    : 115200
+parity is      : none
+databits are   : 8
+stopbits are   : 1
+escape is      : C-a
+local echo is  : no
+noinit is      : no
+noreset is     : no
+hangup is      : no
+nolock is      : no
+send_cmd is    : sz -vv
+receive_cmd is : rz -vv -E
+imap is        : 
+omap is        : 
+emap is        : crcrlf,delbs,
+logfile is     : none
+initstring     : none
+exit_after is  : not set
+exit is        : no
+
+Type [C-a] [C-h] to see available commands
+Terminal ready
+~~~~~.......................................................................~~~~~~~~~~~~~~~~~secure task start!
+high task start!
+low task start!
+
+
+U-Boot 2015.01-g65bcffe-dirty (Jan 03 2025 - 23:43:06)
+
+DRAM:  2 GiB
+Relocation Offset is: 76df1000
+mmu cfg end: 0x80000000
+mmu cfg end: 0x80000000
+spi_post_bind(spifc): req_seq = 0
+register usb cfg[0][1] = 0000000077f3bfa0
+[CANVAS]canvas init
+NAND:  get_sys_clk_rate_mtd() 280, clock setting 200!
+bus cycle0: 6,timing: 7
+NAND device id: 0 ff ff ff ff ff 
+No NAND device found!!!
+nand init failed: -6
+get_sys_clk_rate_mtd() 280, clock setting 200!
+bus cycle0: 6,timing: 7
+NAND device id: 0 ff ff ff ff ff 
+No NAND device found!!!
+nand init failed: -6
+MMC:   aml_priv->desc_buf = 0x0000000073de1a70
+aml_priv->desc_buf = 0x0000000073de3db0
+SDIO Port B: 0, SDIO Port C: 1
+co-phase 0x3, tx-dly 0, clock 400000
+co-phase 0x3, tx-dly 0, clock 400000
+co-phase 0x3, tx-dly 0, clock 400000
+emmc/sd response timeout, cmd8, cmd->cmdarg=0x1aa, status=0x1ff2800
+emmc/sd response timeout, cmd55, cmd->cmdarg=0x0, status=0x1ff2800
+co-phase 0x3, tx-dly 0, clock 400000
+co-phase 0x3, tx-dly 0, clock 40000000
+[set_emmc_calc_fixed_adj][862]find fixed adj_delay=20
+init_part() 297: PART_TYPE_AML
+[mmc_init] mmc init success
+      Amlogic Multi-DTB tool
+      GZIP format, decompress...
+      Multi DTB detected.
+      Multi DTB tool version: v2.
+      Support 2 DTBS.
+saradc get val = 604
+saradc_ext get val = 85
+-----board_version[19], board_version_ext[1]
+checkhw - board_id:0x13
+checkhw - name: g12a_u212_mtk, loc_name: g12a_u212_mtk
+      Found DTB for "g12a_u212_mtk"
+start dts,buffer=0000000073de6620,dt_addr=0000000073de6620
+get_partition_from_dts() 80: ret 0
+      Amlogic Multi-DTB tool
+      Single DTB detected
+saradc get val = 604
+saradc_ext get val = 85
+-----board_version[19], board_version_ext[1]
+checkhw - board_id:0x13
+checkhw - name: g12a_u212_mtk, loc_name: g12a_u212_mtk
+parts: 16
+00:      logo   0000000000800000 1
+01:  recovery   0000000001800000 1
+02:      misc   0000000000800000 1
+03:      conf   0000000000400000 1
+04:      dtbo   0000000000800000 1
+05:  cri_data   0000000000800000 2
+06:     param   0000000001000000 2
+07:      boot   0000000001000000 1
+set has_boot_slot = 0
+08:       oem   0000000001000000 1
+09:  metadata   0000000001000000 1
+10:    vbmeta   0000000000200000 1
+11:       tee   0000000002000000 1
+12:   factory   0000000000800000 11
+13:     super   0000000070800000 1
+enable dynamic_partition
+14:     cache   000000003e800000 2
+15:  userdata   ffffffffffffffff 4
+init_part() 297: PART_TYPE_AML
+eMMC/TSD partition table have been checked OK!
+crc32_s:0x1577dad == storage crc_pattern:0x1577dad!!!
+crc32_s:0xee152b83 == storage crc_pattern:0xee152b83!!!
+crc32_s:0x79f50f07 == storage crc_pattern:0x79f50f07!!!
+mmc env offset: 0x45c00000 
+In:    serial
+Out:   serial
+Err:   serial
+reboot_mode=cold_boot
+gpio: pin GPIOH_8 (gpio 39) value is 1
+gpio: pin GPIOH_5 (gpio 36) value is 0
+Reset mxl248 tuner at bootloader
+gpio: pin GPIOZ_2 (gpio 17) value is 0
+gpio: pin GPIOZ_8 (gpio 23) value is 0
+gpio: pin GPIOZ_8 (gpio 23) value is 1
+gpio: pin GPIOZ_2 (gpio 17) value is 1
+[store]To run cmd[emmc dtb_read 0x1000000 0x40000]
+_verify_dtb_checksum()-3354: calc 3ac7b3cb, store 3ac7b3cb
+_verify_dtb_checksum()-3354: calc 3ac7b3cb, store 3ac7b3cb
+dtb_read()-3569: total valid 2
+update_old_dtb()-3550: do nothing
+      Amlogic Multi-DTB tool
+      GZIP format, decompress...
+      Multi DTB detected.
+      Multi DTB tool version: v2.
+      Support 2 DTBS.
+saradc get val = 605
+saradc_ext get val = 85
+-----board_version[19], board_version_ext[1]
+checkhw - board_id:0x13
+checkhw - name: g12a_u212_mtk, loc_name: g12a_u212_mtk
+      Found DTB for "g12a_u212_mtk"
+amlkey_init() enter!
+[EFUSE_MSG]keynum is 4
+vpu: driver version: v20190313
+vpu: detect chip type: 8
+vpu: clk_level default: 7(666667000Hz), max: 7(666667000Hz)
+vpu: clk_level in dts: 7
+vpu: vpu_power_on
+vpu: set_vpu_clk
+vpu: set clk: 666667000Hz, readback: 666666667Hz(0x100)
+vpu: set_vpu_clk finish
+vpu: vpu_module_init_config
+vpp: vpp_init
+vpp: vpp osd2 matrix rgb2yuv..............
+hdr_func 4, hdr_process_select 0x1
+hdr_func 1, hdr_process_select 0x1
+hdr_func 2, hdr_process_select 0x1
+conf-mmc partition offset(0x4ac00000)
+do_sync_vout read conf item ok
+do_sync_vout conf_hdmimode: Auto
+do_sync_vout conf_cvbsmode: 480cvbs
+cvbs: cpuid:0x28
+cvbs: find clk_path: 0x0
+cvbs: find performance_pal config
+cvbs: find performance_ntsc config
+aml_config_dtb 630
+aml_config_dtb 660
+co_phase = <0x00000003>
+caps2 = "MMC_CAP2_HS200"
+f_max = "
+         ï¿½"
+status = "disabled"
+status = "okay"
+Net:   dwmac.ff3f0000amlkey_init() enter!
+amlkey_init() 59: already init!
+[EFUSE_MSG]keynum is 4
+
+Error: eth_get_efuse_mac failed!!!
+MACADDR:02:00:00:07:23:01(from chipid)
+MACADDR:(from env)
+
+ramdump_init, add:0, size:0
+CONFIG_AVB2: avb2 
+Start read misc partition datas!
+info->magic = 
+info->version_major = 1
+info->version_minor = 0
+info->slots[0].priority = 15
+info->slots[0].tries_remaining = 7
+info->slots[0].successful_boot = 0
+info->slots[1].priority = 14
+info->slots[1].tries_remaining = 7
+info->slots[1].successful_boot = 0
+info->crc32 = -1075449479
+active slot = 0
+wipe_data=successful
+wipe_cache=successful
+upgrade_step=2
+reboot_mode:::: cold_boot
+s_version: U-Boot 2015.01-g65bcffe-dirty
+amlkey_init() enter!
+amlkey_init() 59: already init!
+[EFUSE_MSG]keynum is 4
+[KM]Error:f[key_manage_query_size]L503:key[usid] not programed yet
+[KM]Error:f[key_manage_query_size]L503:key[mac] not programed yet
+[KM]Error:f[key_manage_query_size]L503:key[deviceid] not programed yet
+[KM]Error:f[key_manage_query_size]L503:key[oemkey] not programed yet
+Interface:  MMC
+  Device 1: Vendor: Man 000015 Snr 71ca60a4 Rev: 0.6 Prod: 8GTF4R
+            Type: Removable Hard Disk
+            Capacity: 7456.0 MB = 7.2 GB (15269888 x 512)
+Filesystem: FAT12 "KEYBOX PART"
+conf-mmc partition offset(0x4ac00000)
+hpd_state=0
+do_hpd_detect: hdmimode=1080p60hz
+do_hpd_detect: colorattribute=444,8bit
+Saving Environment to aml-storage...
+mmc env offset: 0x45c00000 
+Writing to MMC(1)... done
+no sink, fallback to 720p60hz[4]
+hdr mode is 0
+dv  mode is ver:0  len: 0
+hdr10+ mode is 0
+HDMI HPD low, no need parse EDID
+dolby_status 0 1
+dolby_vision_process: no tv and dv disabled
+Saving Environment to aml-storage...
+mmc env offset: 0x45c00000 
+Writing to MMC(1)... done
+[OSD]load fb addr from dts:/meson-fb
+[OSD]set initrd_high: 0x7f800000
+[OSD]fb_addr for logo: 0x7f800000
+[OSD]load fb addr from dts:/meson-fb
+[OSD]fb_addr for logo: 0x7f800000
+[OSD]VPP_OFIFO_SIZE:0xfff01fff
+[CANVAS]addr=0x7f800000 width=5760, height=2160
+
+Starting logo
+[Logo_disp]: ====== Logo_disp ======
+[OSD]load fb addr from dts:/meson-fb
+[OSD]fb_addr for logo: 0x7f800000
+conf-mmc partition offset(0x4ac00000)
+=========logo_offset=0 
+[draw_logo] size=0x270d4, ntohl(imgheader.len)=0x27074, ntohs(imgheader.offset)=0x60
+[draw_logo] after ALIGN, size=0x27200
+[draw_logo]: before read_logo_data 
+[draw_logo]: draw_logo 1570
+[draw_logo]: draw_logo 1572
+[set_logoParam]: enter the set_logoParam
+[set_logoParam]:  Id            FileName                Type            No               AddrSize
+[set_logoParam]: before the get_logo_source PAL_LOGO_PICTURE
+### get_logo_source: material.type=0, material.No=1
+[set_logoParam]:  <0>           LogoPic(480i)           0               1               0x11000288           9434
+### get_logo_source: material.type=0, material.No=1
+### get_logo_source: material.type=0, material.No=2
+[set_logoParam]:  <1>           LogoPic(576i)           0               2               0x11002764           9995
+### get_logo_source: material.type=0, material.No=1
+### get_logo_source: material.type=0, material.No=2
+### get_logo_source: material.type=0, material.No=3
+[set_logoParam]:  <2>           LogoPic(720p)           0               3               0x11004e70           20726
+### get_logo_source: material.type=0, material.No=1
+### get_logo_source: material.type=0, material.No=2
+### get_logo_source: material.type=0, material.No=3
+### get_logo_source: material.type=0, material.No=4
+[set_logoParam]:  <3>           LogoPic(1080i_p)        0               2               0x11009f68           42090
+[draw_logo]: draw_logo 1615
+before the  decompressToRGB
+Start to decode the LOGO jpeg ...
+[decompressToRGB]: before the decompress_jpeg_rgb
+[decompressToRGB]: Call decompress_pic_rgb565(id=3,addr=11009f68,size=42090,maxw=1920,maxh=1080,Bpp=3) ... 
+[decompressToRGB]: after the decompress_jpeg_rgb
+[draw_logo]: Success in decoding LOGO src file: (w=1920,h=1080,Bpp=3,data=0x73e668c0)
+[deinit_Logo]: all LOGO's resource (Exc. logoThread) are released 
+Logo_disp ret: 0
+[OSD]osd_hw.free_dst_data: 0,719,0,479
+[OSD]osd1_update_disp_freescale_enable
+vpp: vpp_matrix_update: 2
+cvbs_performance_enhancement
+cvbs_config_hdmipll_g12a
+cvbs_set_vid2_clk
+vdac_enable: 1, module_sel:0x8
+dolby_status 0 1
+dolby_status 0 1
+hdr_packet
+vpp: hdr_policy = 0
+vpp: Rx hdr_info.hdr_sup_eotf_smpte_st_2084 = 0
+s_version: U-Boot 2015.01-g65bcffe-dirty
+amlkey_init() enter!
+amlkey_init() 59: already init!
+[EFUSE_MSG]keynum is 4
+[KM]Error:f[key_manage_query_size]L503:key[usid] not programed yet
+[KM]Error:f[key_manage_query_size]L503:key[mac] not programed yet
+[KM]Error:f[key_manage_query_size]L503:key[deviceid] not programed yet
+[KM]Error:f[key_manage_query_size]L503:key[oemkey] not programed yet
+Interface:  MMC
+  Device 1: Vendor: Man 000015 Snr 71ca60a4 Rev: 0.6 Prod: 8GTF4R
+            Type: Removable Hard Disk
+            Capacity: 7456.0 MB = 7.2 GB (15269888 x 512)
+Filesystem: FAT12 "KEYBOX PART"
+conf-mmc partition offset(0x4ac00000)
+gpio: pin GPIOAO_3 (gpio 3) value is 0
+detect upgrade key
+Start read misc partition datas!
+info->magic = 
+info->version_major = 1
+info->version_minor = 0
+info->slots[0].priority = 15
+info->slots[0].tries_remaining = 7
+info->slots[0].successful_boot = 0
+info->slots[1].priority = 14
+info->slots[1].tries_remaining = 7
+info->slots[1].successful_boot = 0
+info->crc32 = -1075449479
+active slot = 0
+active_slot: normal
+itest - return true/false on integer compare
+
+Usage:
+itest [.b, .w, .l, .s] [*]value1 <op> [*]value2
+Unknown command 'wipeisb' - try 'help'
+avb2: 1
+Start read misc partition datas!
+info->magic = 
+info->version_major = 1
+info->version_minor = 0
+info->slots[0].priority = 15
+info->slots[0].tries_remaining = 7
+info->slots[0].successful_boot = 0
+info->slots[1].priority = 14
+info->slots[1].tries_remaining = 7
+info->slots[1].successful_boot = 0
+info->crc32 = -1075449479
+active slot = 0
+active_slot is normal
+ab_suffix is 
+avb_slot_verify.c:682: DEBUG: Loading vbmeta struct from partition 'vbmeta'.
+AVB2 verify with vendor kpub
+AVB2 re-verify with default kpub
+[store]To run cmd[emmc dtb_read 0x00000000748ef8d0 0x40000]
+dtb_read_shortcut()-3412: short cut in...
+Start read misc partition datas!
+info->magic = 
+info->version_major = 1
+info->version_minor = 0
+info->slots[0].priority = 15
+info->slots[0].tries_remaining = 7
+info->slots[0].successful_boot = 0
+info->slots[1].priority = 14
+info->slots[1].tries_remaining = 7
+info->slots[1].successful_boot = 0
+info->crc32 = -1075449479
+active slot = 0
+avb verification: locked = 1, result = 0
+ee_gate_off ...
+avb2: 1
+## Booting Android Image at 0x03080000 ...
+Kernel command line: androidboot.dynamic_partitions=true androidboot.dtbo_idx=0 androidboot.boot_devices=ffe07000.emmc buildvariant=user
+[store]Is good fdt check header, no need decrypt!
+active_slot is normal
+load dtb from 0x1000000 ......
+      Amlogic Multi-DTB tool
+      Single DTB detected
+saradc get val = 605
+saradc_ext get val = 85
+-----board_version[19], board_version_ext[1]
+checkhw - board_id:0x13
+checkhw - name: g12a_u212_mtk, loc_name: g12a_u212_mtk
+find 1 dtbos
+dtbos to be applied: 0
+Apply dtbo 0
+   Uncompressing Kernel Image ... OK
+   kernel loaded at 0x01080000, end = 0x028bb008
+libfdt fdt_getprop(): FDT_ERR_NOTFOUND
+   Loading Ramdisk to 73380000, end 73dde99e ... OK
+   Loading Device Tree to 000000001ffe7000, end 000000001ffff0d7 ... OK
+fdt_fixup_memory_banks, reg:0000000000000000
+
+Starting kernel ...
+
+uboot time: 5795261 us
+prk: [    1.322019@1]s input: gpio, power_state: 1, power_key_state: 0
+prk: [    2.718016@1]s input: gpio, power_state: 1, power_key_state: 1
+prk: [    2.718642@1]s input: gpio_keypad_down_cnt: 60
+prk: [    4.202013@1]s input: gpio, power_state: 1, power_key_state: 1
+prk: [    4.202635@1]s input: gpio_keypad_down_cnt: 60
+prk: [    5.678031@1]s input: gpio, power_state: 1, power_key_state: 1
+prk: [    5.678656@1]s input: gpio_keypad_down_cnt: 60
+prk: [    7.150052@1]s input: gpio, power_state: 1, power_key_state: 1
+prk: [    7.150680@1]s input: gpio_keypad_down_cnt: 60
+# ls
+acct                      postinstall
+apex                      proc
+bin                       product
+bugreports                product_file_contexts
+cache                     product_property_contexts
+config                    prop.default
+d                         res
+data                      root
+data_mirror               sbin
+debug_ramdisk             sdcard
+default.prop              second_stage_resources
+dev                       sepolicy
+etc                       sideload
+init                      storage
+init.recovery.amlogic.rc  sys
+linkerconfig              system
+metadata                  system_ext
+mnt                       system_ext_file_contexts
+odm                       system_ext_property_contexts
+odm_dlkm                  tmp
+odm_file_contexts         udisk
+odm_property_contexts     vendor
+oem                       vendor_dlkm
+plat_file_contexts        vendor_file_contexts
+plat_property_contexts    vendor_property_contexts
+# 

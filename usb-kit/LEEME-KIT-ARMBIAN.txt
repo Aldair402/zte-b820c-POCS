@@ -1,0 +1,104 @@
+=====================================================================
+ KIT PARA ARRANCAR ARMBIAN EN LA CAJA (ZTE B820C / Amlogic U212)
+=====================================================================
+
+IDENTIDAD DE TU CAJA (medida desde dentro del Android)
+  SoC        : Amlogic S905X2 (familia G12A)
+  Placa      : Amlogic "U212" (referencia de Amlogic)
+  dt-id      : g12a_u212_mtk
+  WiFi/BT    : MediaTek MT7663/MT7668 (SDIO)
+  Ethernet   : PHY interno 10/100
+  compatible : "amlogic, g12a"
+
+---------------------------------------------------------------------
+ 1) QUE DTB USAR  (la decision mas importante)
+---------------------------------------------------------------------
+La placa U212 es la referencia de Amlogic para S905X2; en Linux mainline
+se usa el DTB de la hermana U200:
+        meson-g12a-u200.dtb            <-- PRIMERA OPCION
+Alternativas (misma SoC, PHY interno de 100 Mbit):
+        meson-g12a-x96-max-rmii.dtb    <-- SEGUNDA OPCION
+        meson-g12a-sei510.dtb          <-- TERCERA OPCION
+NO uses meson-g12a-x96-max.dtb (ese es para Gigabit externo) salvo que
+quieras probar; el de la caja es 100 Mbit.
+
+Estos .dtb ya vienen dentro de la imagen Armbian, en:
+        /dtb/amlogic/meson-g12a-*.dtb
+Solo hay que SELECCIONAR el correcto en el arranque (paso 2).
+
+---------------------------------------------------------------------
+ 2) SELECCIONAR EL DTB EN EL ARRANQUE
+---------------------------------------------------------------------
+Segun el tipo de imagen Armbian que tengas (mira que archivos hay en la
+particion FAT32 del pendrive, que se llama armbi_boot):
+
+ A) Si hay carpeta extlinux/  -> edita  extlinux/extlinux.conf
+    Deja UNA sola linea FDT activa:
+        FDT /dtb/amlogic/meson-g12a-u200.dtb
+    (las demas lineas FDT/#FDT deben quedar comentadas con #)
+
+ B) Si hay uEnv.txt o uEnv.ini -> edita y pon:
+        dtb_name=/dtb/amlogic/meson-g12a-u200.dtb
+        fdtfile=/dtb/amlogic/meson-g12a-u200.dtb
+        FDT=/dtb/amlogic/meson-g12a-u200.dtb
+
+ C) Imagenes nuevas con variables de entorno:
+        fdtfile=amlogic/meson-g12a-u200.dtb
+
+Guarda el archivo y expulsa el pendrive con seguridad.
+
+---------------------------------------------------------------------
+ 3) FIRMWARE DEL WIFI (carpeta firmware/mediatek de este kit)
+---------------------------------------------------------------------
+Copia los 3 archivos a la particion FAT32 del pendrive en una carpeta
+llamada "mediatek" ... PERO ojo: tienen que quedar dentro del sistema
+Armbian en /lib/firmware/mediatek/. Como Android no puede escribir en la
+particion Linux del pendrive, se hace asi:
+
+  1. Copia la carpeta "mediatek" (con los 3 .bin) a la particion FAT32
+     del pendrive, en:  /mediatek
+  2. Arranca Armbian y, como root:
+        cp -v /boot/mediatek/* /lib/firmware/mediatek/
+        rmmod mt7663s; modprobe mt7663s     # o simplemente reinicia
+
+Si no aparecen los .bin, prueba a copiarlos al revés (algunas imagenes
+esperan nombres distintos):
+        cp mediator mt7663pr2h.bin   -> /lib/firmware/mediatek/mt7663pr2h.bin
+        cp mt7663pr2h_rebb.bin       -> /lib/firmware/mediatek/
+        cp mt7663_n9_v3.bin          -> /lib/firmware/mediatek/
+
+AVISO: el driver mt7663s (SDIO) en mainline es "joven"; puede que el WiFi
+no funcione a la primera. La ETHERNET de 100 Mbit si deberia funcionar
+con el DTB correcto (es lo importante para un equipo de casa).
+
+---------------------------------------------------------------------
+ 4) COMO ARRANCAR (resumen)
+---------------------------------------------------------------------
+ 1. Pendrive FAT32 con la imagen Armbian escrita (balbes150 / ophub).
+ 2. Edita el DTB segun el paso 2.
+ 3. Inserta el pendrive EN LA CAJA (no en la TV).
+ 4. Enciende la caja (o reiniciala).
+ 5. En la red aparecera un equipo nuevo: entra por SSH desde el PC
+        ssh root@<ip>       (clave por defecto: 1234 o "armbian")
+    La IP la puedes ver en tu router.
+ 6. Quita el pendrive -> la caja arranca Android otra vez.
+
+---------------------------------------------------------------------
+ 5) VOLVER A ANDROID / RESCATE
+---------------------------------------------------------------------
+ - Sacar el pendrive: siempre Android.
+ - Pendrive con el archivo "rescue.flag" en la raiz: Android.
+ - El modo de arranque por USB SOLO actua si hay "aml_autoscript" en el
+   pendrive; sin el, no hace nada.
+
+---------------------------------------------------------------------
+ 6) CUANDO ARMBIAN ARRANQUE, AVISAME Y HACEMOS ESTO
+---------------------------------------------------------------------
+ (a) sacar la DTB DE FABRICA de la caja (g12a_u212_mtk) para tener
+     WiFi/BT/IR y todo perfecto:
+        sudo dd if=/dev/mmcblk0p12 of=/home/boot.img bs=1M
+        sudo dd if=/dev/mmcblk0p9  of=/home/dtbo.img bs=1M
+        sudo dd if=/dev/mmcblk0p4  of=/home/env.img  bs=1M
+     Me los pasas (USB o red) y yo extraigo la DTB con mi script
+     (bootimg_dtb_extract.py) y te la dejo lista para usar.
+ (b) root permanente en Android, updates, etc.
